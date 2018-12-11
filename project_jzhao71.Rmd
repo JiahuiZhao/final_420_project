@@ -1,0 +1,99 @@
+---
+title: 'STAT 420: Project'
+author: "Fall 2018, Unger"
+date: 'Due: Wednesday, December 19 by 11:00 AM CT'
+output:
+  pdf_document:
+    toc: yes
+---
+
+# Introduction and Data
+
+## Goal
+
+*	Data cleaning as necessary to address observations with missing or extreme values  
+* Multiple linear regression  
+* ANOVA  
+* Dummy variables  
+* Interaction  
+* Residual diagnostics  
+* Outlier diagnostics  
+* Transformations  
+* Polynomial regression  
+* Stepwise model selection  
+* Variable selection  
+
+## Data
+
+The dataset `Abalone`contains 4177 observations and 9 variables. From the original data, examples with missing values were removed, and the ranges of the continuous values have been scaled for easier use. The response variable of interest is the age of abalone sea snails as measured by `rings`.
+
+```{r}
+abalone <- read.csv("abalone.dat", header=FALSE)
+abnames = c('sex','length','diameter','height','whole','shucked','viscera','shell','rings')
+colnames(abalone) = abnames
+```
+
+Variables in order:
+
+- `Sex` - M, F, and I (infant)
+- `Length` - longest shell measurement (mm)
+- `Diameter` - measured perpendicular to length (mm)
+- `Height` - with meat in shell (mm)
+- `Whole` - whole abalone weight (g)
+- `Shucked` - weight of meat only (g)
+- `Viscera` - gut weight, after bleeding (g)
+- `Shell` - weight after being dried (g)
+- `Rings` - +1.5 gives the age in years
+
+```{r}
+set.seed(664312686)  
+n.train = round(nrow(abalone) * 0.80 )
+n.test  = nrow(abalone) - n.train
+train.test = sample(1:nrow(abalone))
+ab.train = abalone[train.test[1:n.train], ]
+ab.test  = abalone[train.test[n.train+1 : nrow(abalone)], ]
+```
+
+# Method
+
+understand the train data
+
+```{r}
+# structure
+str(ab.train)
+# names
+names(ab.train)
+# dimension
+dim(ab.train)
+# correlation
+cor(ab.train)
+# correlation pair
+pairs(ab.train)
+```
+
+full model with rings~all predictor variables
+
+```{r}
+names(ab.train)
+# full model
+full.model = lm(rings ~., data = ab.train)
+# anova test full model
+anova(full.model)
+```
+
+```{r}
+```
+
+# Result
+
+## Final Model Selected
+* Write-up of the results. Point out notable information from tables and graphs as necessary.
+
+## Interpretation
+f. Give an interpretation, in the context of this data, of **all** of the parameters in your final model selected to the best of your ability.
+
+# Appendix
+
+# Project Grading
+
+
